@@ -35,8 +35,8 @@ void send_bit(pid_t pid, char c)
 {
     int i = 0; //10000000 & 1
         kill(pid, SIGUSR2); //bit 1
-        else
-            kill(pid, SIGUSR1); //bit 0
+        //else
+           // kill(pid, SIGUSR1); //bit 0
     while(i << 7)
     {
         i++;
