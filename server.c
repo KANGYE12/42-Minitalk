@@ -12,17 +12,9 @@
 
 #include "minitalk.h"
 
-void signal_handler(int sigusr)
-{
-    
-}
-
 int main(void)
 {
     ft_printf("PID number of the server: %d\n", getpid());
-    signal(SIGUSR1, signal_handler);
-    signal(SIGUSR2, signal_handler);
-    while (1)
-        pause();
+
     return(0);
 }

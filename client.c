@@ -12,36 +12,37 @@
 
 #include "minitalk.h"
 
+
 int main(int argc, char **argv)
-{
+{  
     pid_t pid;
-    char *message;
-    int i;
 
-    i = 0;    
     if(argc != 3)
-        ft_printf("ERROR. Different than 3 arguments are not allowed");
-    pid = ft_atoi(argv[1]);
-    message = argv[2];
-    
-    while(message[i]){
-        send_bit(pid, message[i]);
-        i++;
+    {
+        ft_printf("ERROR. Different than 3 arguments are not allowed\n");
+        ft_printf("FORMAT REQUIRED: ./client <PID> <MESSAGE>");
     }
-    send_bit(pid, '\0');
+    else
+    {
+        pid = ft_atoi(argv[1]);
+        if(!pid)
+        {
+            ft_printf("ERROR in the PID number");
+            return 0;
+        }
+        if(!argv[2])
+        {
+            ft_printf("ERROR in the MESSAGE to send");
+            return 0;
+        }
+        send_bits(pid, argv[2]);
+    }
+    return 0;
+    
 }
 
-void send_bit(pid_t pid, char c)
+void    send_bits(int pid, char *message)
 {
-    int i = 0; //10000000 & 1
-        kill(pid, SIGUSR2); //bit 1
-        //else
-           // kill(pid, SIGUSR1); //bit 0
-    while(i << 7)
-    {
-        i++;
-        usleep(100);
-    }
-    
     
 }
+
