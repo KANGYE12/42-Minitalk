@@ -14,7 +14,24 @@
 
 int main(void)
 {
-    ft_printf("PID number of the server: %d\n", getpid());
+    int server_pid;
 
+    server_pid = getpid();
+    ft_printf("PID number of the server: %d\n", server_pid);
+    signal(SIGUSR1, signal_handler);
+    signal(SIGUSR2, signal_handler);
     return(0);
+}
+
+void signal_handler(int sig)
+{
+    static int current_byte;
+    static int counter_bits;
+
+    counter_bits = 0;
+    if(sig == SIGUSR1)
+    {
+        
+    }
+
 }

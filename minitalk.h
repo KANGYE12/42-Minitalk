@@ -19,6 +19,6 @@
 # include "printf/ft_printf.h"
 # include <sys/types.h>
 
-void    send_bits(int pid, char *message);
+void    send_bits(int server_pid, char *message);
 
 #endif
