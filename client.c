@@ -5,17 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kanye <kanye@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 15:20:54 by kanye             #+#    #+#             */
-/*   Updated: 2025/04/11 15:20:54 by kanye            ###   ########.fr       */
+/*   Created: 2025/04/21 13:14:44 by kanye             #+#    #+#             */
+/*   Updated: 2025/04/21 13:14:44 by kanye            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minitalk.h"
 
 int	main(int argc, char **argv)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	if (argc != 3)
 	{
@@ -42,25 +41,26 @@ int	main(int argc, char **argv)
 
 void	send_bits(int server_pid, char *message)
 {
-	int i;
-	int bit;
-	int letter;
+	int		i;
+	int		bit;
+	int		letter;
 
 	letter = 0;
-	while (message[letter] != '\0')
+	while (1)
 	{
-        i = 7;
+		i = 7;
 		while (i >= 0)
 		{
 			bit = ((unsigned char)message[letter] >> i) & 1;
-
 			if (bit == 0)
 				kill(server_pid, SIGUSR1);
 			else
 				kill(server_pid, SIGUSR2);
-			usleep(100);
+			usleep(1000);
 			i--;
 		}
-        letter++;
+		if (message[letter] == '\0')
+			break ;
+		letter++;
 	}
 }

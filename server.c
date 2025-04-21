@@ -5,33 +5,58 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kanye <kanye@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 14:16:19 by kanye             #+#    #+#             */
-/*   Updated: 2025/04/01 18:29:09 by kanye            ###   ########.fr       */
+/*   Created: 2025/04/21 13:16:29 by kanye             #+#    #+#             */
+/*   Updated: 2025/04/21 13:16:29 by kanye            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int main(void)
+int	main(int argc, char **argv)
 {
-    int server_pid;
+	pid_t	server_pid;
 
-    server_pid = getpid();
-    ft_printf("PID number of the server: %d\n", server_pid);
-    signal(SIGUSR1, signal_handler);
-    signal(SIGUSR2, signal_handler);
-    return(0);
+	(void)argv;
+	if (argc != 1)
+	{
+		ft_printf("Server must not have more than one argument (./server)\n");
+		exit(1);
+	}
+	server_pid = getpid();
+	ft_printf("PID number of the server: %d\n", server_pid);
+	signal(SIGUSR1, signal_handler);
+	signal(SIGUSR2, signal_handler);
+	ft_printf("Waiting for signals'\n'");
+	while (1)
+		pause();
+	return (0);
 }
 
-void signal_handler(int sig)
+void	signal_handler(int signal)
 {
-    static int current_byte;
-    static int counter_bits;
+	static unsigned char	bits[8];
+	static int				bit_index;
+	unsigned char			result;
+	int						i;
 
-    counter_bits = 0;
-    if(sig == SIGUSR1)
-    {
-        
-    }
-
+	if (signal == SIGUSR1)
+		bits[bit_index] = 0;
+	else if (signal == SIGUSR2)
+		bits[bit_index] = 1;
+	bit_index++;
+	if (bit_index == 8)
+	{
+		i = 0;
+		result = 0;
+		while (i < 8)
+		{
+			result |= bits[i] << (7 - i);
+			i++;
+		}
+		if (result == '\0')
+			write(1, "\n", 1);
+		else
+			write(1, &result, 1);
+		bit_index = 0;
+	}
 }
